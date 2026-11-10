@@ -16,6 +16,9 @@ import {
   Maximize2,
   Video,
   Loader2,
+  Moon,
+  Keyboard,
+  Gauge,
 } from "lucide-react";
 import { usePlayer } from "@/context/PlayerContext";
 import { usePlaylists } from "@/context/PlaylistContext";
@@ -45,11 +48,19 @@ export function PlayerBar() {
     isQueueOpen,
     setIsQueueOpen,
     setIsExpandedNowPlaying,
+    playbackRate,
+    setPlaybackRate,
+    sleepTimerMinutes,
+    sleepTimerRemaining,
+    setSleepTimer,
+    setIsShortcutsOpen,
   } = usePlayer();
 
   const { isFavorite, toggleFavorite } = usePlaylists();
   const [isSeeking, setIsSeeking] = useState(false);
   const [seekVal, setSeekVal] = useState(0);
+  const [showSleepMenu, setShowSleepMenu] = useState(false);
+  const [showSpeedMenu, setShowSpeedMenu] = useState(false);
 
   if (!currentSong) return null;
 
@@ -65,6 +76,15 @@ export function PlayerBar() {
     seekTo(seekVal);
     setIsSeeking(false);
   };
+
+  const speedOptions = [0.75, 1, 1.25, 1.5, 2];
+  const sleepOptions = [
+    { label: "Off", value: null },
+    { label: "15 min", value: 15 },
+    { label: "30 min", value: 30 },
+    { label: "45 min", value: 45 },
+    { label: "60 min", value: 60 },
+  ];
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-40 h-20 sm:h-22 glass-panel border-t border-zinc-800/90 bg-zinc-950/95 px-3 sm:px-6 flex items-center select-none backdrop-blur-xl">
@@ -209,10 +229,99 @@ export function PlayerBar() {
           </div>
         </div>
 
-        {/* Right: Volume & Drawer Toggles */}
-        <div className="flex items-center justify-end gap-2 sm:gap-3 w-1/4 min-w-[120px] max-w-[240px]">
+        {/* Right: Tools, Volume & Drawer Toggles */}
+        <div className="flex items-center justify-end gap-1.5 sm:gap-2.5 w-1/4 min-w-[120px] max-w-[280px]">
+          {/* Playback Speed Selector */}
+          <div className="relative hidden lg:block">
+            <button
+              onClick={() => {
+                setShowSpeedMenu(!showSpeedMenu);
+                setShowSleepMenu(false);
+              }}
+              className="px-2 py-1 text-[11px] font-semibold rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white transition"
+              title="Playback Speed"
+            >
+              {playbackRate}x
+            </button>
+
+            {showSpeedMenu && (
+              <div className="absolute bottom-full right-0 mb-2 w-24 rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl p-1 z-50 text-xs">
+                {speedOptions.map((rate) => (
+                  <button
+                    key={rate}
+                    onClick={() => {
+                      setPlaybackRate(rate);
+                      setShowSpeedMenu(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-lg transition ${
+                      playbackRate === rate
+                        ? "bg-emerald-500 text-zinc-950 font-bold"
+                        : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                    }`}
+                  >
+                    {rate}x
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Sleep Timer */}
+          <div className="relative hidden sm:block">
+            <button
+              onClick={() => {
+                setShowSleepMenu(!showSleepMenu);
+                setShowSpeedMenu(false);
+              }}
+              className={`p-1.5 rounded-xl border transition ${
+                sleepTimerRemaining !== null
+                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 font-semibold text-[11px] px-2 flex items-center gap-1"
+                  : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white"
+              }`}
+              title="Sleep Timer"
+            >
+              <Moon className="w-3.5 h-3.5" />
+              {sleepTimerRemaining !== null && (
+                <span>{Math.ceil(sleepTimerRemaining / 60)}m</span>
+              )}
+            </button>
+
+            {showSleepMenu && (
+              <div className="absolute bottom-full right-0 mb-2 w-28 rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl p-1 z-50 text-xs">
+                <div className="px-2 py-1 text-[10px] uppercase font-bold text-zinc-500">
+                  Sleep Timer
+                </div>
+                {sleepOptions.map((opt) => (
+                  <button
+                    key={opt.label}
+                    onClick={() => {
+                      setSleepTimer(opt.value);
+                      setShowSleepMenu(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-lg transition ${
+                      sleepTimerMinutes === opt.value
+                        ? "bg-emerald-500 text-zinc-950 font-bold"
+                        : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Keyboard Shortcuts Dialog trigger */}
+          <button
+            onClick={() => setIsShortcutsOpen(true)}
+            className="hidden md:flex p-1.5 text-zinc-500 hover:text-white rounded-lg hover:bg-zinc-900 transition"
+            title="Keyboard Shortcuts (?)"
+          >
+            <Keyboard className="w-4 h-4" />
+          </button>
+
           {/* Volume Control */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-1.5">
             <button
               onClick={toggleMute}
               className="p-1 text-zinc-400 hover:text-white transition cursor-pointer"
@@ -230,7 +339,7 @@ export function PlayerBar() {
               max={100}
               value={isMuted ? 0 : volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="w-16 lg:w-20 h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+              className="w-14 lg:w-16 h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
               style={{
                 background: `linear-gradient(to right, #10b981 ${
                   isMuted ? 0 : volume
@@ -256,7 +365,7 @@ export function PlayerBar() {
           <button
             onClick={() => setIsExpandedNowPlaying(true)}
             className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-xl transition cursor-pointer"
-            title="Full Screen / Expanded Player"
+            title="Full Screen / Expanded Player (F)"
           >
             <Maximize2 className="w-4 h-4" />
           </button>
