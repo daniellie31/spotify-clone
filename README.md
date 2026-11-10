@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wavefy 🎵 - Minimalist Ad-Free YouTube & Music Streaming Web App
 
-## Getting Started
+A clean, modern, anti-slop YouTube Music / Spotify clone built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
 
-First, run the development server:
+Designed to stream any YouTube link or search query with zero audio interruptions, native dark mode, and seamless integration with browser ad blockers (like Brave Shields or uBlock Origin in Chrome/Firefox).
 
+---
+
+## ✨ Features
+
+- **⚡ Instant YouTube URL Streaming**:
+  - Paste any YouTube URL (`youtube.com/watch?v=...`, `youtu.be/...`, `music.youtube.com/...`, shorts, or video ID) directly in the top bar to play immediately.
+- **🛡️ Browser Extension & Shield Detection**:
+  - Automatically detects whether Brave Shields or an adblock extension (uBlock Origin, AdGuard, etc.) is active.
+  - Displays a live glowing status badge (*"🦁 Brave Shields: Ad-Free Mode"* or *"🛡️ AdBlock: Freemium Active"*).
+  - Because it streams through the browser's embedded player, video and audio ads are filtered directly at the browser level—no paid subscription required!
+- **🎨 Anti-Slop, Clean Minimalist UI**:
+  - Deep obsidian dark theme (`#090a0f`), glassmorphism panels, and subtle emerald accents.
+  - Responsive across mobile, tablet, and desktop with a slide-over navigation drawer.
+- **🎧 Expanded "Now Playing" View**:
+  - Rotating vinyl turntable animation synced to playback state.
+  - Live animated equalizer waveform visualization.
+  - Video toggle button (PiP preview mode) if you want to watch the music video.
+- **🔍 YouTube Search & Suggestions**:
+  - Fast live search with quick suggestion chips.
+  - Searches YouTube results and local curated tracks.
+- **📑 Playlists & Library**:
+  - Create, rename, and manage custom playlists.
+  - Liked Songs / Favorites with 1-click heart toggle.
+  - LocalStorage persistence so your playlists are always saved.
+- **🎛️ Full Audio Controls**:
+  - Shuffle, loop (repeat one / repeat all / off), seekbar with hover time tooltip, and volume slider.
+  - Play Queue drawer with reordering and removal.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Run the Development Server
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Build for Production
+```bash
+npm run build
+npm run start
+```
