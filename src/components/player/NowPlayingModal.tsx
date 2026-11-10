@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -18,6 +18,8 @@ import {
   Video,
   ListMusic,
   ExternalLink,
+  Moon,
+  Keyboard,
 } from "lucide-react";
 import { usePlayer } from "@/context/PlayerContext";
 import { usePlaylists } from "@/context/PlaylistContext";
@@ -48,9 +50,16 @@ export function NowPlayingModal() {
     playSong,
     toggleVideoMode,
     isVideoMode,
+    playbackRate,
+    setPlaybackRate,
+    sleepTimerMinutes,
+    sleepTimerRemaining,
+    setSleepTimer,
+    setIsShortcutsOpen,
   } = usePlayer();
 
   const { isFavorite, toggleFavorite } = usePlaylists();
+  const [showSleepMenu, setShowSleepMenu] = useState(false);
 
   // Close on Escape key
   useEffect(() => {
@@ -68,6 +77,15 @@ export function NowPlayingModal() {
   const isLiked = isFavorite(currentSong.id);
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
   const upNextQueue = queue.slice(queueIndex + 1, queueIndex + 6);
+
+  const speedOptions = [0.75, 1, 1.25, 1.5, 2];
+  const sleepOptions = [
+    { label: "Off", value: null },
+    { label: "15 min", value: 15 },
+    { label: "30 min", value: 30 },
+    { label: "45 min", value: 45 },
+    { label: "60 min", value: 60 },
+  ];
 
   return (
     <AnimatePresence>
@@ -89,19 +107,90 @@ export function NowPlayingModal() {
             aria-hidden="true"
           />
 
-          {/* Top Bar: Header & Close */}
+          {/* Top Bar: Header & Actions */}
           <div className="flex items-center justify-between z-10 mb-6">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
               <Disc3 className="w-4 h-4 text-emerald-400 animate-spin-slow" />
               Now Playing
             </div>
-            <button
-              onClick={() => setIsExpandedNowPlaying(false)}
-              className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition cursor-pointer"
-              title="Close (Esc)"
-            >
-              <X className="w-5 h-5" />
-            </button>
+
+            <div className="flex items-center gap-2">
+              {/* Speed Pills */}
+              <div className="hidden sm:flex items-center gap-1 bg-zinc-900 border border-zinc-800 p-1 rounded-xl text-xs">
+                {speedOptions.map((rate) => (
+                  <button
+                    key={rate}
+                    onClick={() => setPlaybackRate(rate)}
+                    className={`px-2 py-0.5 rounded-lg font-semibold transition ${
+                      playbackRate === rate
+                        ? "bg-emerald-500 text-zinc-950"
+                        : "text-zinc-400 hover:text-white"
+                    }`}
+                  >
+                    {rate}x
+                  </button>
+                ))}
+              </div>
+
+              {/* Sleep Timer */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowSleepMenu(!showSleepMenu)}
+                  className={`p-2 rounded-xl border transition flex items-center gap-1 text-xs ${
+                    sleepTimerRemaining !== null
+                      ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-400 font-semibold"
+                      : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-white"
+                  }`}
+                  title="Sleep Timer"
+                >
+                  <Moon className="w-3.5 h-3.5" />
+                  {sleepTimerRemaining !== null && (
+                    <span>{Math.ceil(sleepTimerRemaining / 60)}m</span>
+                  )}
+                </button>
+
+                {showSleepMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-32 rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl p-1 z-50 text-xs">
+                    <div className="px-2 py-1 text-[10px] uppercase font-bold text-zinc-500">
+                      Sleep Timer
+                    </div>
+                    {sleepOptions.map((opt) => (
+                      <button
+                        key={opt.label}
+                        onClick={() => {
+                          setSleepTimer(opt.value);
+                          setShowSleepMenu(false);
+                        }}
+                        className={`w-full text-left px-2.5 py-1.5 rounded-lg transition ${
+                          sleepTimerMinutes === opt.value
+                            ? "bg-emerald-500 text-zinc-950 font-bold"
+                            : "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Shortcuts trigger */}
+              <button
+                onClick={() => setIsShortcutsOpen(true)}
+                className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition"
+                title="Keyboard Shortcuts (?)"
+              >
+                <Keyboard className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => setIsExpandedNowPlaying(false)}
+                className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-zinc-800 transition cursor-pointer"
+                title="Close (Esc)"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Main Content Grid: Vinyl / Cover Art + Track Info + Up Next */}
