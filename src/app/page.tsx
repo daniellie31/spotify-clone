@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { PlayerProvider } from "@/context/PlayerContext";
 import { PlaylistProvider, usePlaylists } from "@/context/PlaylistContext";
 import { Navbar } from "@/components/navbar/Navbar";
@@ -38,7 +39,7 @@ function MainApp() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+    <div className="flex flex-col h-screen overflow-hidden bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors">
       {/* Top Navigation */}
       <Navbar
         onNavigate={handleNavigate}
@@ -97,7 +98,7 @@ function MainApp() {
         </AnimatePresence>
 
         {/* Dynamic Views */}
-        <main className="flex-1 flex flex-col overflow-hidden bg-zinc-950">
+        <main className="flex-1 flex flex-col overflow-hidden bg-zinc-50 dark:bg-zinc-950 transition-colors">
           {activeView === "dashboard" && <Dashboard onNavigate={handleNavigate} />}
           {activeView === "search" && <SearchView />}
           {activeView === "playlist" && <PlaylistView />}
@@ -135,10 +136,12 @@ function MainApp() {
 
 export default function Home() {
   return (
-    <PlayerProvider>
-      <PlaylistProvider>
-        <MainApp />
-      </PlaylistProvider>
-    </PlayerProvider>
+    <ThemeProvider>
+      <PlayerProvider>
+        <PlaylistProvider>
+          <MainApp />
+        </PlaylistProvider>
+      </PlayerProvider>
+    </ThemeProvider>
   );
 }

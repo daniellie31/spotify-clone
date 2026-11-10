@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Search, Link as LinkIcon, Radio, Loader2, Play, Menu } from "lucide-react";
 import { usePlayer } from "@/context/PlayerContext";
 import { AdBlockBadge } from "./AdBlockBadge";
+import { ThemeToggle } from "./ThemeToggle";
 import { extractYouTubeId } from "@/lib/utils";
 
 interface NavbarProps {
@@ -35,12 +36,12 @@ export function Navbar({ onNavigate, activeView, onOpenMobileSidebar }: NavbarPr
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full glass-panel border-b border-zinc-800/80 bg-zinc-950/80 px-3 sm:px-6 py-3">
+    <header className="sticky top-0 z-30 w-full glass-panel border-b border-zinc-200 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 px-3 sm:px-6 py-3 transition-colors">
       <div className="flex items-center justify-between gap-2 sm:gap-3 max-w-7xl mx-auto">
         {/* Mobile menu trigger */}
         <button
           onClick={onOpenMobileSidebar}
-          className="md:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 border border-zinc-800 transition"
+          className="md:hidden p-2 rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 transition"
           title="Open Library & Playlists"
         >
           <Menu className="w-4 h-4" />
@@ -55,7 +56,7 @@ export function Navbar({ onNavigate, activeView, onOpenMobileSidebar }: NavbarPr
             <Radio className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-950" />
           </div>
           <div>
-            <span className="text-sm sm:text-base font-bold tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+            <span className="text-sm sm:text-base font-bold tracking-tight text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
               Wavefy
             </span>
           </div>
@@ -73,10 +74,10 @@ export function Navbar({ onNavigate, activeView, onOpenMobileSidebar }: NavbarPr
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
               placeholder="Paste any YouTube URL or ID to play..."
-              className={`w-full h-9 sm:h-10 pl-8 sm:pl-10 pr-16 sm:pr-24 text-xs sm:text-sm rounded-full bg-zinc-900/90 text-zinc-200 placeholder:text-zinc-500 border transition-all duration-200 focus:outline-none focus:ring-1 ${
+              className={`w-full h-9 sm:h-10 pl-8 sm:pl-10 pr-16 sm:pr-24 text-xs sm:text-sm rounded-full bg-zinc-100 dark:bg-zinc-900/90 text-zinc-900 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 border transition-all duration-200 focus:outline-none focus:ring-1 ${
                 urlError
                   ? "border-red-500 focus:ring-red-500"
-                  : "border-zinc-800 focus:border-emerald-500/60 focus:ring-emerald-500/40"
+                  : "border-zinc-200 dark:border-zinc-800 focus:border-emerald-500/60 focus:ring-emerald-500/40"
               }`}
             />
 
@@ -97,20 +98,22 @@ export function Navbar({ onNavigate, activeView, onOpenMobileSidebar }: NavbarPr
           </form>
 
           {urlError && (
-            <p className="absolute mt-1 text-[11px] text-red-400 pl-3">
+            <p className="absolute mt-1 text-[11px] text-red-500 pl-3">
               Please enter a valid YouTube link (e.g. youtube.com/watch?v=... or youtu.be/...)
             </p>
           )}
         </div>
 
-        {/* Right: Adblock / Extension Status & Search Button */}
+        {/* Right: Theme Toggle, Search Button & AdBlock Status */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <ThemeToggle />
+
           <button
             onClick={() => onNavigate("search")}
             className={`p-2 rounded-full border transition ${
               activeView === "search"
-                ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400"
-                : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white"
+                ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-600 dark:text-emerald-400"
+                : "bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white"
             }`}
             title="Search"
           >

@@ -14,7 +14,7 @@ export function PlaylistView() {
     toggleFavorite,
     isFavorite,
   } = usePlaylists();
-  const { playSong, currentSong, isPlaying, togglePlay } = usePlayer();
+  const { playSong, currentSong, isPlaying } = usePlayer();
 
   const isLikedSongsView = activePlaylistId === "favorites";
   const currentPlaylist = isLikedSongsView
@@ -48,8 +48,8 @@ export function PlaylistView() {
   return (
     <div className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 pb-28 space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 p-6 sm:p-8 rounded-3xl glass-panel border border-zinc-800 bg-gradient-to-b from-zinc-900 to-zinc-950">
-        <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden bg-zinc-800 flex-shrink-0 shadow-2xl border border-white/10">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 p-6 sm:p-8 rounded-3xl glass-panel border border-zinc-200 dark:border-zinc-800 bg-gradient-to-b from-zinc-100 to-white dark:from-zinc-900 dark:to-zinc-950 transition-colors shadow-lg">
+        <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 shadow-2xl border border-black/5 dark:border-white/10">
           {currentPlaylist.coverImage ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -58,27 +58,27 @@ export function PlaylistView() {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-zinc-900">
-              <Music className="w-16 h-16 text-zinc-600" />
+            <div className="w-full h-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-900">
+              <Music className="w-16 h-16 text-zinc-400 dark:text-zinc-600" />
             </div>
           )}
         </div>
 
         <div className="flex-1 space-y-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
             {isLikedSongsView ? "Collection" : "Playlist"}
           </span>
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white tracking-tight">
             {currentPlaylist.name}
           </h1>
 
           {currentPlaylist.description && (
-            <p className="text-sm text-zinc-400 max-w-xl">{currentPlaylist.description}</p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 max-w-xl">{currentPlaylist.description}</p>
           )}
 
-          <div className="flex items-center gap-2 text-xs text-zinc-400 pt-2 font-mono">
-            <span className="font-semibold text-zinc-200">
+          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 pt-2 font-mono">
+            <span className="font-semibold text-zinc-700 dark:text-zinc-200">
               {currentPlaylist.songs.length}{" "}
               {currentPlaylist.songs.length === 1 ? "track" : "tracks"}
             </span>
@@ -102,7 +102,7 @@ export function PlaylistView() {
         <button
           onClick={handleShufflePlay}
           disabled={currentPlaylist.songs.length === 0}
-          className="p-3 rounded-full bg-zinc-900 hover:bg-zinc-800 disabled:opacity-40 border border-zinc-800 text-zinc-300 hover:text-white transition cursor-pointer"
+          className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 disabled:opacity-40 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition cursor-pointer"
           title="Shuffle Play"
         >
           <Shuffle className="w-5 h-5" />
@@ -112,7 +112,7 @@ export function PlaylistView() {
       {/* Tracks Table */}
       <div className="space-y-1">
         {/* Table Header */}
-        <div className="grid grid-cols-12 px-4 py-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider border-b border-zinc-800/80">
+        <div className="grid grid-cols-12 px-4 py-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider border-b border-zinc-200 dark:border-zinc-800/80">
           <span className="col-span-1 text-center">#</span>
           <span className="col-span-6 sm:col-span-7">Title</span>
           <span className="col-span-3 sm:col-span-3 hidden sm:inline">Category</span>
@@ -122,10 +122,10 @@ export function PlaylistView() {
         </div>
 
         {currentPlaylist.songs.length === 0 ? (
-          <div className="p-12 text-center text-zinc-500 space-y-2 border border-dashed border-zinc-800 rounded-2xl my-4">
-            <Music className="w-8 h-8 mx-auto text-zinc-600 mb-2" />
+          <div className="p-12 text-center text-zinc-500 space-y-2 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-2xl my-4">
+            <Music className="w-8 h-8 mx-auto text-zinc-400 dark:text-zinc-600 mb-2" />
             <p className="text-sm">This playlist is empty.</p>
-            <p className="text-xs text-zinc-600">
+            <p className="text-xs text-zinc-500 dark:text-zinc-600">
               Browse tracks on Home or use Search to add songs!
             </p>
           </div>
@@ -137,18 +137,18 @@ export function PlaylistView() {
             return (
               <div
                 key={`${song.id}-${idx}`}
-                className={`group grid grid-cols-12 items-center px-4 py-2.5 rounded-xl hover:bg-zinc-900/90 border border-transparent hover:border-zinc-800 transition ${
-                  isCurrent ? "bg-zinc-900 border-zinc-800" : ""
+                className={`group grid grid-cols-12 items-center px-4 py-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900/90 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 transition ${
+                  isCurrent ? "bg-zinc-200/60 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800" : ""
                 }`}
               >
                 {/* Index / Play */}
                 <div className="col-span-1 text-center">
-                  <span className="text-xs font-mono text-zinc-500 group-hover:hidden">
+                  <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500 group-hover:hidden">
                     {idx + 1}
                   </span>
                   <button
                     onClick={() => playSong(song, currentPlaylist.songs)}
-                    className="hidden group-hover:inline-flex items-center justify-center text-emerald-400"
+                    className="hidden group-hover:inline-flex items-center justify-center text-emerald-500"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
                   </button>
@@ -159,7 +159,7 @@ export function PlaylistView() {
                   onClick={() => playSong(song, currentPlaylist.songs)}
                   className="col-span-6 sm:col-span-7 flex items-center gap-3 truncate cursor-pointer"
                 >
-                  <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-zinc-800 flex-shrink-0">
+                  <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex-shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={song.thumbnail}
@@ -176,28 +176,28 @@ export function PlaylistView() {
                   <div className="truncate">
                     <h4
                       className={`text-xs sm:text-sm font-semibold truncate ${
-                        isCurrent ? "text-emerald-400" : "text-white group-hover:text-emerald-400"
+                        isCurrent ? "text-emerald-500" : "text-zinc-900 dark:text-white group-hover:text-emerald-500"
                       }`}
                     >
                       {song.title}
                     </h4>
-                    <p className="text-[11px] text-zinc-400 truncate">{song.artist}</p>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate">{song.artist}</p>
                   </div>
                 </div>
 
                 {/* Category */}
-                <div className="col-span-3 hidden sm:inline text-xs text-zinc-400 truncate">
+                <div className="col-span-3 hidden sm:inline text-xs text-zinc-500 dark:text-zinc-400 truncate">
                   {song.category || "YouTube Track"}
                 </div>
 
                 {/* Duration & Actions */}
-                <div className="col-span-5 sm:col-span-1 flex items-center justify-end gap-2 text-xs font-mono text-zinc-400">
+                <div className="col-span-5 sm:col-span-1 flex items-center justify-end gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
                   <span>{formatTime(song.duration)}</span>
 
                   <button
                     onClick={() => toggleFavorite(song)}
                     className={`p-1 transition ${
-                      isLiked ? "text-emerald-400" : "text-zinc-500 hover:text-white"
+                      isLiked ? "text-emerald-500" : "text-zinc-400 hover:text-zinc-700 dark:hover:text-white"
                     }`}
                   >
                     <Heart className={`w-3.5 h-3.5 ${isLiked ? "fill-current" : ""}`} />
@@ -206,7 +206,7 @@ export function PlaylistView() {
                   {!isLikedSongsView && (
                     <button
                       onClick={() => removeSongFromPlaylist(currentPlaylist.id, song.id)}
-                      className="opacity-0 group-hover:opacity-100 p-1 text-zinc-500 hover:text-red-400 transition"
+                      className="opacity-0 group-hover:opacity-100 p-1 text-zinc-400 hover:text-red-500 transition"
                       title="Remove from playlist"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

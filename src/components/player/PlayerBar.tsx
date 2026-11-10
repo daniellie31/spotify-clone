@@ -87,13 +87,13 @@ export function PlayerBar() {
   ];
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-40 h-20 sm:h-22 glass-panel border-t border-zinc-800/90 bg-zinc-950/95 px-3 sm:px-6 flex items-center select-none backdrop-blur-xl">
+    <footer className="fixed bottom-0 left-0 right-0 z-40 h-20 sm:h-22 glass-panel border-t border-zinc-200 dark:border-zinc-800/90 bg-white/95 dark:bg-zinc-950/95 px-3 sm:px-6 flex items-center select-none backdrop-blur-xl transition-colors">
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto gap-2 sm:gap-4">
         {/* Left: Current Track Info */}
         <div className="flex items-center gap-3 w-1/4 min-w-[140px] max-w-[280px]">
           <div
             onClick={() => setIsExpandedNowPlaying(true)}
-            className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden bg-zinc-800 flex-shrink-0 cursor-pointer group shadow-md"
+            className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 cursor-pointer group shadow-md"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -111,12 +111,12 @@ export function PlayerBar() {
           <div className="truncate flex-1">
             <h4
               onClick={() => setIsExpandedNowPlaying(true)}
-              className="text-xs sm:text-sm font-semibold text-white truncate cursor-pointer hover:underline"
+              className="text-xs sm:text-sm font-semibold text-zinc-900 dark:text-white truncate cursor-pointer hover:underline"
               title={currentSong.title}
             >
               {currentSong.title}
             </h4>
-            <p className="text-[11px] text-zinc-400 truncate" title={currentSong.artist}>
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate" title={currentSong.artist}>
               {currentSong.artist}
             </p>
           </div>
@@ -126,7 +126,7 @@ export function PlayerBar() {
             <button
               onClick={() => toggleFavorite(currentSong)}
               className={`p-1.5 rounded-full transition cursor-pointer ${
-                isLiked ? "text-emerald-400 hover:text-emerald-300" : "text-zinc-500 hover:text-zinc-200"
+                isLiked ? "text-emerald-500 hover:text-emerald-400" : "text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               }`}
               title={isLiked ? "Remove from Liked Songs" : "Save to Liked Songs"}
             >
@@ -137,8 +137,8 @@ export function PlayerBar() {
               onClick={toggleVideoMode}
               className={`hidden sm:flex p-1.5 rounded-full transition cursor-pointer ${
                 isVideoMode
-                  ? "text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
-                  : "text-zinc-500 hover:text-zinc-200"
+                  ? "text-emerald-500 bg-emerald-500/10 hover:bg-emerald-500/20"
+                  : "text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               }`}
               title={isVideoMode ? "Hide video preview" : "Show video preview"}
             >

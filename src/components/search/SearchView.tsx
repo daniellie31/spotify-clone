@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Search, Link as LinkIcon, Play, Heart, Plus, Loader2, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Search, Play, Heart, Plus, Loader2, Sparkles } from "lucide-react";
 import { Song } from "@/types/music";
 import { usePlayer } from "@/context/PlayerContext";
 import { usePlaylists } from "@/context/PlaylistContext";
@@ -72,17 +72,17 @@ export function SearchView() {
         <div className="relative">
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400">
             {loading ? (
-              <Loader2 className="w-5 h-5 animate-spin text-emerald-400" />
+              <Loader2 className="w-5 h-5 animate-spin text-emerald-500" />
             ) : (
-              <Search className="w-5 h-5 text-emerald-400" />
+              <Search className="w-5 h-5 text-emerald-500" />
             )}
           </div>
           <input
             type="text"
             value={query}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search songs, artists, or paste any YouTube URL directly..."
-            className="w-full h-14 pl-12 pr-4 rounded-2xl bg-zinc-900 border border-zinc-800 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500/60 focus:ring-2 focus:ring-emerald-500/20 shadow-xl transition-all"
+            placeholder="Search live YouTube tracks, artists, or paste any video link..."
+            className="w-full h-14 pl-12 pr-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500/60 focus:ring-2 focus:ring-emerald-500/20 shadow-lg transition-all"
             autoFocus
           />
         </div>
@@ -90,13 +90,13 @@ export function SearchView() {
         {/* Quick Suggestion Chips */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           <span className="text-xs text-zinc-500 font-medium flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" /> Try:
+            <Sparkles className="w-3.5 h-3.5 text-emerald-500" /> Try:
           </span>
           {suggestions.map((item) => (
             <button
               key={item}
               onClick={() => handleSearch(item)}
-              className="px-3 py-1 rounded-full text-xs bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-white transition whitespace-nowrap cursor-pointer"
+              className="px-3 py-1 rounded-full text-xs bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white transition whitespace-nowrap cursor-pointer"
             >
               {item}
             </button>
@@ -106,9 +106,9 @@ export function SearchView() {
 
       {/* Results Header */}
       <div className="max-w-4xl mx-auto pt-2">
-        <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
-            {query ? `Search Results for "${query}"` : "Discover & Recommended Tracks"}
+        <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800/80">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            {query ? `Search Results for "${query}"` : "Discover & Live YouTube Results"}
           </h2>
           <span className="text-xs text-zinc-500">{results.length} tracks</span>
         </div>
@@ -117,9 +117,9 @@ export function SearchView() {
         <div className="mt-3 space-y-1">
           {results.length === 0 ? (
             <div className="p-12 text-center text-zinc-500 space-y-2">
-              <Search className="w-8 h-8 mx-auto text-zinc-600 mb-2" />
+              <Search className="w-8 h-8 mx-auto text-zinc-400 dark:text-zinc-600 mb-2" />
               <p className="text-sm">No direct tracks found.</p>
-              <p className="text-xs text-zinc-600">
+              <p className="text-xs text-zinc-500 dark:text-zinc-600">
                 Tip: You can paste any full YouTube video link directly above to play it instantly!
               </p>
             </div>
@@ -131,8 +131,8 @@ export function SearchView() {
               return (
                 <div
                   key={`${song.id}-${idx}`}
-                  className={`group flex items-center justify-between p-2.5 sm:p-3 rounded-2xl hover:bg-zinc-900/90 border border-transparent hover:border-zinc-800 transition ${
-                    isCurrent ? "bg-zinc-900 border-zinc-800" : ""
+                  className={`group flex items-center justify-between p-2.5 sm:p-3 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-900/90 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 transition ${
+                    isCurrent ? "bg-zinc-200/60 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800" : ""
                   }`}
                 >
                   {/* Left: Index / Play & Thumbnail + Info */}
@@ -140,14 +140,14 @@ export function SearchView() {
                     onClick={() => playSong(song, results)}
                     className="flex items-center gap-3.5 truncate flex-1 cursor-pointer"
                   >
-                    <span className="w-5 text-center text-xs font-mono text-zinc-500 group-hover:hidden">
+                    <span className="w-5 text-center text-xs font-mono text-zinc-400 dark:text-zinc-500 group-hover:hidden">
                       {idx + 1}
                     </span>
-                    <button className="w-5 hidden group-hover:flex items-center justify-center text-emerald-400">
+                    <button className="w-5 hidden group-hover:flex items-center justify-center text-emerald-500">
                       <Play className="w-3.5 h-3.5 fill-current" />
                     </button>
 
-                    <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-zinc-800 flex-shrink-0 shadow-sm">
+                    <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 shadow-sm">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={song.thumbnail}
@@ -164,31 +164,31 @@ export function SearchView() {
                     <div className="truncate">
                       <h4
                         className={`text-xs sm:text-sm font-semibold truncate ${
-                          isCurrent ? "text-emerald-400" : "text-white group-hover:text-emerald-400"
+                          isCurrent ? "text-emerald-500" : "text-zinc-900 dark:text-white group-hover:text-emerald-500"
                         }`}
                       >
                         {song.title}
                       </h4>
-                      <p className="text-[11px] text-zinc-400 truncate">{song.artist}</p>
+                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400 truncate">{song.artist}</p>
                     </div>
                   </div>
 
                   {/* Right: Category, Duration, & Actions */}
                   <div className="flex items-center gap-3">
                     {song.category && (
-                      <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-800/80 text-zinc-400">
+                      <span className="hidden md:inline-block px-2 py-0.5 rounded text-[10px] font-medium bg-zinc-200 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400">
                         {song.category}
                       </span>
                     )}
 
-                    <span className="text-xs text-zinc-400 font-mono">
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
                       {formatTime(song.duration)}
                     </span>
 
                     <button
                       onClick={() => toggleFavorite(song)}
                       className={`p-1.5 rounded-full transition ${
-                        isLiked ? "text-emerald-400" : "text-zinc-500 hover:text-white"
+                        isLiked ? "text-emerald-500" : "text-zinc-400 hover:text-zinc-700 dark:hover:text-white"
                       }`}
                       title={isLiked ? "Remove Favorite" : "Add Favorite"}
                     >
@@ -200,14 +200,14 @@ export function SearchView() {
                         onClick={() =>
                           setActiveMenuSongId(activeMenuSongId === song.id ? null : song.id)
                         }
-                        className="p-1.5 rounded-full text-zinc-500 hover:text-white transition"
+                        className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-white transition"
                         title="Add to playlist"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
 
                       {activeMenuSongId === song.id && (
-                        <div className="absolute right-0 bottom-full mb-1 w-44 rounded-xl bg-zinc-900 border border-zinc-700 shadow-2xl py-1 z-30 text-xs">
+                        <div className="absolute right-0 bottom-full mb-1 w-44 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 shadow-2xl py-1 z-30 text-xs">
                           <div className="px-3 py-1 text-[10px] uppercase font-bold text-zinc-500">
                             Add To Playlist
                           </div>
@@ -218,18 +218,18 @@ export function SearchView() {
                                 addSongToPlaylist(pl.id, song);
                                 setActiveMenuSongId(null);
                               }}
-                              className="w-full text-left px-3 py-1.5 text-zinc-300 hover:bg-zinc-800 hover:text-white truncate"
+                              className="w-full text-left px-3 py-1.5 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-950 dark:hover:text-white truncate"
                             >
                               {pl.name}
                             </button>
                           ))}
-                          <div className="border-t border-zinc-800 my-1" />
+                          <div className="border-t border-zinc-200 dark:border-zinc-800 my-1" />
                           <button
                             onClick={() => {
                               addToQueue(song);
                               setActiveMenuSongId(null);
                             }}
-                            className="w-full text-left px-3 py-1.5 text-emerald-400 hover:bg-zinc-800 font-medium"
+                            className="w-full text-left px-3 py-1.5 text-emerald-600 dark:text-emerald-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-medium"
                           >
                             + Add to Queue
                           </button>

@@ -23,7 +23,7 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
   };
 
   return (
-    <aside className="w-64 bg-zinc-950 border-r border-zinc-800/80 flex flex-col flex-shrink-0 h-[calc(100vh-61px-80px)] select-none">
+    <aside className="w-64 bg-zinc-50 dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800/80 flex flex-col flex-shrink-0 h-[calc(100vh-61px-80px)] select-none transition-colors">
       {/* Primary Navigation */}
       <div className="p-4 space-y-1">
         <button
@@ -33,11 +33,11 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
           }}
           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer ${
             activeView === "dashboard"
-              ? "bg-zinc-800/80 text-white font-semibold"
-              : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+              ? "bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-semibold"
+              : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/60 dark:hover:bg-zinc-900"
           }`}
         >
-          <Home className={`w-4 h-4 ${activeView === "dashboard" ? "text-emerald-400" : ""}`} />
+          <Home className={`w-4 h-4 ${activeView === "dashboard" ? "text-emerald-500" : ""}`} />
           Home
         </button>
 
@@ -48,11 +48,11 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
           }}
           className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer ${
             activeView === "search"
-              ? "bg-zinc-800/80 text-white font-semibold"
-              : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+              ? "bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-950 dark:text-white font-semibold"
+              : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/60 dark:hover:bg-zinc-900"
           }`}
         >
-          <Search className={`w-4 h-4 ${activeView === "search" ? "text-emerald-400" : ""}`} />
+          <Search className={`w-4 h-4 ${activeView === "search" ? "text-emerald-500" : ""}`} />
           Search & Discover
         </button>
 
@@ -60,8 +60,8 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
           onClick={handleSelectFavorites}
           className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition cursor-pointer ${
             activeView === "playlist" && activePlaylistId === "favorites"
-              ? "bg-gradient-to-r from-emerald-950/60 to-zinc-900 text-white border-l-2 border-emerald-500 font-semibold"
-              : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+              ? "bg-emerald-50 dark:bg-gradient-to-r dark:from-emerald-950/60 dark:to-zinc-900 text-zinc-950 dark:text-white border-l-2 border-emerald-500 font-semibold"
+              : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/60 dark:hover:bg-zinc-900"
           }`}
         >
           <div className="flex items-center gap-3">
@@ -74,7 +74,7 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
         </button>
       </div>
 
-      <div className="mx-4 my-2 border-t border-zinc-800/60" />
+      <div className="mx-4 my-2 border-t border-zinc-200 dark:border-zinc-800/60" />
 
       {/* Playlists Header */}
       <div className="px-4 py-2 flex items-center justify-between">
@@ -84,7 +84,7 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
         </span>
         <button
           onClick={openCreateModal}
-          className="text-zinc-400 hover:text-emerald-400 p-1 rounded-md hover:bg-zinc-900 transition cursor-pointer"
+          className="text-zinc-500 dark:text-zinc-400 hover:text-emerald-500 dark:hover:text-emerald-400 p-1 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-900 transition cursor-pointer"
           title="Create Playlist"
         >
           <PlusCircle className="w-4 h-4" />
@@ -100,15 +100,15 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
               key={pl.id}
               className={`group flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition cursor-pointer ${
                 isActive
-                  ? "bg-zinc-800/90 text-white font-semibold"
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-900/80"
+                  ? "bg-zinc-200/80 dark:bg-zinc-800/90 text-zinc-950 dark:text-white font-semibold"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/50 dark:hover:bg-zinc-900/80"
               }`}
             >
               <div
                 onClick={() => handleSelectPlaylist(pl.id)}
                 className="flex items-center gap-2.5 truncate flex-1"
               >
-                <div className="w-7 h-7 rounded-lg overflow-hidden bg-zinc-800 flex-shrink-0 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg overflow-hidden bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 flex items-center justify-center">
                   {pl.coverImage ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={pl.coverImage} alt={pl.name} className="w-full h-full object-cover" />
@@ -130,7 +130,7 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
                     e.stopPropagation();
                     deletePlaylist(pl.id);
                   }}
-                  className="opacity-0 group-hover:opacity-100 p-1 text-zinc-500 hover:text-red-400 transition rounded"
+                  className="opacity-0 group-hover:opacity-100 p-1 text-zinc-400 hover:text-red-500 transition rounded"
                   title="Delete Playlist"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -142,13 +142,13 @@ export function Sidebar({ activeView, onNavigate, openCreateModal }: SidebarProp
       </div>
 
       {/* Footer Info */}
-      <div className="p-3 m-3 rounded-xl bg-zinc-900/60 border border-zinc-800/80 text-[11px] text-zinc-400 space-y-1">
-        <div className="font-semibold text-zinc-300 flex items-center gap-1.5">
+      <div className="p-3 m-3 rounded-xl bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 text-[11px] text-zinc-600 dark:text-zinc-400 space-y-1">
+        <div className="font-semibold text-zinc-800 dark:text-zinc-300 flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          YouTube Powered
+          Live YouTube Feed
         </div>
         <p className="text-[10px] text-zinc-500 leading-tight">
-          Play any YouTube video without audio interruptions. Ad-free via Brave or browser ad blockers.
+          Dynamic streaming with zero ads when using Brave or browser ad blockers.
         </p>
       </div>
     </aside>
